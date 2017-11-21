@@ -6,14 +6,24 @@ public class Driver {
 		try {
 			Connection myConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/lab4", "root" , "Password");
 			Statement myStat= myConn.createStatement();
+			 System.out.println("Connected database successfully...");
+			 System.out.println("Creating table in given database...");
+		    
+		      
+		      String sql = "CREATE TABLE REGISTRATION " +
+		                   "(id INTEGER not NULL, " +
+		                   " first VARCHAR(255), " + 
+		                   " last VARCHAR(255), " + 
+		                   " age INTEGER, " + 
+		                   " PRIMARY KEY ( id ))"; 
+
+		      myStat.executeUpdate(sql);
+		      System.out.println("Created table in given database...");
 			
-//			ResultSet myRs= myStat.executeQuery("SELECT * FROM lab4.Student;");
-//			while (myRs.next()) {
-//				System.out.println(myRs.getString("SSN") + ", " + myRs.getString("Name"));
-//			}
-		
-		
 		}
+		
+		
+		
 		catch (Exception e ) {
 			e.printStackTrace();
 		}
