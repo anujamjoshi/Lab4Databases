@@ -8,12 +8,8 @@ public class Driver {
 			Statement myStat= myConn.createStatement();
 			System.out.println("Connected database successfully...");
 			System.out.println("Creating tables...");
-			//createTables(myStat);
+			createTables(myStat);
 
-			//		      
-			String sql = "DROP TABLE REGISTRATION ";
-
-			myStat.executeUpdate(sql);
 
 		}
 
@@ -28,76 +24,83 @@ public class Driver {
 
 
 	public static void createTables(Statement myStat) {
-		String TripOffering = "CREATE TABLE TripOffering " +
-				"("+ 
-				"TripNumber INTEGER not NULL, " +
-				" Date VARCHAR(10), " + 
-				" ScheduledStartTime VARCHAR(5), " + 
-				" SecheduledArrivalTime VARCHAR(5), " + 
-				"DriverName VARCHAR(25), " + 
-				"BusID VARCHAR(25), " + 
-				" PRIMARY KEY ( TripNumber, Date, ScheduledStartTime )"
-				+ ")"; 
-
-		String Bus = "CREATE TABLE Bus " +
-				"("+ 
-				"BusID VARCHAR(25), " +
-				" Model VARCHAR(25), " + 
-				" Year INTEGER," + 
-				" PRIMARY KEY ( BusID ),"+ 
-				"FOREIGN KEY (BusID) REFERENCES TripOffering(BusID)"+
-				")"; 
-
-		String Driver = "CREATE TABLE Driver " +
-				"("+ 
-				"DriverName VARCHAR(25), " +
-				" DriverTelephoneNumber INTEGER, " + 
-				" PRIMARY KEY ( DriverName ),"+ 
-				"FOREIGN KEY (DriverName) REFERENCES TripOffering(DriverName)"+ 
-				")"; 
-		String Trip = "CREATE TABLE Trip " +
-				"("+ 
-				"TripNumber INTEGER not NULL," +
-				" StartLocationName VARCHAR(30), " + 
-				"DestinationName VARCHAR (30)"+ 
-				" PRIMARY KEY ( TripNumber ),"+ 
-				"FOREIGN KEY (TripNumber) REFERENCES TripOffering(TripNumber)"+ 
-				")"; 
-		String TripStopInfo  = "CREATE TABLE TripStopInfo  " +
-				"("+ 
-				"TripNumber INTEGER not NULL," +
-				" StopNumber INTEGER, " + 
-				"SequenceNumber INTEGER,"+
-				"DrivingTime INTEGER "+
-				" PRIMARY KEY ( TripNumber, StopNumber ),"+ 
-				"FOREIGN KEY (TripNumber) REFERENCES Trip(TripNumber)"+ 
-				")"; 
-		String ActualTripStopInfo   = "CREATE TABLE ActualTripStopInfo   " +
-				"("+ 
-				"TripNumber INTEGER not NULL, " +
-				" Date VARCHAR(10), " + 
-				" ScheduledStartTime VARCHAR(5), " + 
-				" StopNumber INTEGER, " + 
-				" SecheduledArrivalTime VARCHAR(5), " + 
-				" ActualStartTime VARCHAR(5), " + 
-				" ActualArrivalTime VARCHAR(5), " + 
-				" NumberOfPassengerIn INTEGER, " + 
-				" NumberOfPassengerOut INTEGER, " + 
-				" PRIMARY KEY ( TripNumber, Date, ScheduledStartTime, StopNumber ),"+
-				"FOREIGN KEY (TripNumber) REFERENCES Trip(TripNumber)"+ 
-				")"; 
-		String Stop = "CREATE TABLE Stop" +
-				"("	+ 
-				" StopNumber INTEGER, " + 
-				" StopAddress VARCHAR(30), " + 
-				" PRIMARY KEY ( StopNumber ),"+
-				"FOREIGN KEY (StopNumber) REFERENCES TripStopInfo(StopNumber)"+ 
-				"FOREIGN KEY (StopNumber) REFERENCES ActualTripStopInfo(StopNumber)"+ 
+		String Bus = 
+				"CREATE TABLE Bus (" + 
+				"    BusID VARCHAR(30)," + 
+				"	Model VARCHAR(30)," + 
+				"    Year VARCHAR(30)," + 
+				"    PRIMARY KEY (BusID)" + 
+				");" ;
+			String Driver=	"CREATE TABLE Driver (" + 
+				"    DriverName VARCHAR(30)," + 
+				"    DriverTelephoneNumber VARCHAR(30)," + 
+				"    PRIMARY KEY (DriverName)" + 
+				");" ;
 				
-				") "
-				;
+			String TripOffering=	"CREATE TABLE TripOffering (" + 
+				"	TripNumber INTEGER," + 
+				"    Date DATE," + 
+				"    ScheduledStartTime VARCHAR(30)," + 
+				"	ScheduledArrivalTime VARCHAR(30)," + 
+				"    DriverName VARCHAR(30)," + 
+				"    BusID VARCHAR(30)," + 
+				"	PRIMARY KEY(Date, ScheduledStartTime, TripNumber)," + 
+				"    FOREIGN KEY(BusID) REFERENCES Bus(BusID)" + 
+				"		ON DELETE CASCADE ON UPDATE CASCADE," + 
+				"	FOREIGN KEY(DriverName) REFERENCES Driver(DriverName)" + 
+				"		ON DELETE CASCADE ON UPDATE CASCADE" + 
+				");" ;
+			
+			String Trip =	"CREATE TABLE Trip (" + 
+				"	TripNumber INTEGER PRIMARY KEY," + 
+				"    StartLocationName VARCHAR(30)," + 
+				"    DestinationName VARCHAR(30)" + 
+				");" ;
+String Stop="CREATE TABLE Stop (" + 
+				"	StopNumber INTEGER PRIMARY KEY," + 
+				"	StopAddress VARCHAR(30)" + 
+				");" ;
+
+String ActualTripStopInfo=				"CREATE TABLE ActualTripStopInfo (" + 
+				"	TripNumber INTEGER," + 
+				"    Date DATE," + 
+				"    ScheduledStartTime VARCHAR(30)," + 
+				"    StopNumber INTEGER," + 
+				"    ScheduledArrivalTime VARCHAR(30)," + 
+				"    ActualStartTime VARCHAR(30)," + 
+				"    ActualArrivalTime VARCHAR(30)," + 
+				"    NumberofPassengerIn VARCHAR(30)," + 
+				"    NumberofPassengerOut VARCHAR(30)," + 
+				"    PRIMARY KEY(StopNumber, Date, ScheduledStartTime, TripNumber)," + 
+				"	FOREIGN KEY(Date, ScheduledStartTime, TripNumber) REFERENCES TripOffering(Date, ScheduledStartTime, TripNumber)" + 
+				"		ON DELETE CASCADE ON UPDATE CASCADE," + 
+				"	FOREIGN KEY(StopNumber) REFERENCES Stop(StopNumber)" + 
+				"		ON DELETE CASCADE ON UPDATE CASCADE" + 
+				");" ;
+
+		String 	TripStopInfo=	"CREATE TABLE TripStopInfo (" + 
+				"    TripNumber INTEGER," + 
+				"    StopNumber INTEGER," + 
+				"	SequenceNumber VARCHAR(30)," + 
+				"    DrivingTime VARCHAR(30)," + 
+				"    PRIMARY KEY(StopNumber, TripNumber)," + 
+				"	FOREIGN KEY(StopNumber) REFERENCES Stop(StopNumber)" + 
+				"		ON DELETE CASCADE ON UPDATE CASCADE," + 
+				"	FOREIGN KEY(TripNumber) REFERENCES Trip(TripNumber)" + 
+				"		ON DELETE CASCADE ON UPDATE CASCADE" + 
+				");" ;
 		try {
+			myStat.executeUpdate(Bus);
+			myStat.executeUpdate(Driver);
 			myStat.executeUpdate(TripOffering);
+			myStat.executeUpdate(Trip);
+			myStat.executeUpdate(Stop);
+			myStat.executeUpdate(ActualTripStopInfo);
+			myStat.executeUpdate(TripStopInfo);
+			
+			
+			
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
