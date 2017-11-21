@@ -3,6 +3,7 @@ import java.util.Scanner;
 
 public class Driver {
 	private static final String tripNumber = null;
+	private static final String NumberofPassengerIn = null;
 	static Connection myConn; 
 	static Statement myStat; 
 	static ResultSet  myRs;
@@ -194,7 +195,35 @@ public class Driver {
 					System.out.println(success);
 					break;
 				case "8" :
-					System.out.println("Better try again");
+					/*
+					 *  Record (insert) the actual data of a given trip offering specified by its key. 
+					 *  The actual data include the attributes of the table ActualTripStopInfo
+					 */
+					//PRIMARY KEY (`StopNumber`,`Date`,`ScheduledStartTime`,`TripNumber`),
+					System.out.println("Insert Trip Number ");
+					TripNumber = Integer.parseInt(sc.next());
+					System.out.println("Insert Date in YYYY-MM-DD format");
+					Date = sc.next();
+					System.out.println("Insert Scheduled Start Time ");
+					String ScheduledStartTime = sc.next();
+					System.out.println("Insert Stop Number  ");
+					Integer stopNumber = sc.nextInt();
+					System.out.println("Insert Scheduled Arrival Time ");
+					String ScheduledArrivalTime = sc.next();
+					System.out.println("Insert Actual Start Time ");
+					String ActualStartTime = sc.next();
+					System.out.println("Insert Actual Arrival Time ");
+					String ActualArrivalTime = sc.next();
+					System.out.println("Insert passengers in ");
+					Integer NumberofPassengerIn = sc.nextInt();
+					System.out.println("Insert passengers out ");
+					Integer NumberofPassengerOut = sc.nextInt();
+					success = myStat.executeUpdate(addActualTripInformation(TripNumber, Date, ScheduledStartTime, stopNumber, ScheduledArrivalTime, ActualStartTime, ActualArrivalTime, NumberofPassengerIn, NumberofPassengerOut));
+					System.out.println(success);
+
+
+
+
 					break;
 				default :
 					input = "9";
@@ -204,7 +233,7 @@ public class Driver {
 
 
 			}
-
+			System.out.println("Thank you for using this program! ");
 
 		}
 
@@ -215,6 +244,7 @@ public class Driver {
 		}
 
 	}
+
 
 
 
@@ -414,4 +444,23 @@ public class Driver {
 				"WHERE BusID ="+ busID +";" ;
 	}
 
+	/*
+	 * Question 8 
+	 */
+	private static String addActualTripInformation(int tripNumber, String date, String scheduledStartTime,
+			Integer stopNumber, String scheduledArrivalTime, String actualStartTime, String actualArrivalTime,
+			Integer numberofPassengerIn, Integer numberofPassengerOut) {
+		// TODO Auto-generated method stub
+		return "\n" + 
+		"UPDATE ActualTripStopInfo "
+		+ "SET ScheduledArrivalTime =" + scheduledArrivalTime + 
+		"AND ActualStartTime = " + actualStartTime + 
+		"AND ActualArrivalTime = " + actualArrivalTime+ 
+		"AND NumberofPassengerIn = "+numberofPassengerIn+ 
+		"AND NumberofPassengerOut = "+ numberofPassengerOut +
+		" WHERE TripNumber = " +tripNumber+ 
+		" AND Date = "+ date+
+		"AND ScheduledStartTime=" + scheduledStartTime+ 
+		" AND StopNumber=" + stopNumber + "; ";
+	}
 }
