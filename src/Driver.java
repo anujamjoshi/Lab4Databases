@@ -4,11 +4,12 @@ public class Driver {
 
 	public static void main(String[] args) {
 		try {
-			Connection myConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/lab4", "root" , "Password");
+			Connection myConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/lab4?allowMultiQueries=true", "root" , "Password");
 			Statement myStat= myConn.createStatement();
 			System.out.println("Connected database successfully...");
 			System.out.println("Creating tables...");
 			createTables(myStat);
+			insertData(myStat);
 
 
 		}
@@ -98,13 +99,39 @@ String ActualTripStopInfo=				"CREATE TABLE ActualTripStopInfo (" +
 			myStat.executeUpdate(ActualTripStopInfo);
 			myStat.executeUpdate(TripStopInfo);
 			
-			
-			
-			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
+	public static void insertData(Statement myStat) {
+		String baseBus = 
+				"INSERT INTO Bus VALUES ('1', 'City', '2007');\n" +
+				"INSERT INTO Bus VALUES ('2', 'City', '2007');\n" + 
+				"INSERT INTO Bus VALUES ('3', 'Tour', '2008');\n" + 
+				"INSERT INTO Bus VALUES ('4', 'Tour', '2008');\n" + 
+				"INSERT INTO Bus VALUES ('5', 'Commuter', '2008');\n" + 
+				"INSERT INTO Bus VALUES ('6', 'Commuter', '2008');\n" + 
+				"INSERT INTO Bus VALUES ('7', 'City', '2009');\n" + 
+				"INSERT INTO Bus VALUES ('8', 'City', '2009');";
+		
+		String baseDriver = 
+				"INSERT INTO Driver VALUES ('Michael Scott', '10005');\n" + 
+				"INSERT INTO Driver VALUES ('Dwight Schrute', '10006');\n" + 
+				"INSERT INTO Driver VALUES ('Jim Halpert', '20004');\n" + 
+				"INSERT INTO Driver VALUES ('Pam Beesly', '20002');\n" + 
+				"INSERT INTO Driver VALUES ('Ryan Howard', '30001');\n" + 
+				"INSERT INTO Driver VALUES ('Andy Bernard', '30002');\n" + 
+				"INSERT INTO Driver VALUES ('Jan Levinson', '50003');";
+		
+		try {
+			myStat.executeUpdate(baseBus);
+			myStat.executeUpdate(baseDriver);	
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
