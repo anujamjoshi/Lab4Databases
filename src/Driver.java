@@ -404,7 +404,40 @@ public class Driver {
 				"INSERT INTO Stop VALUES ('15', 'Lafayette St / N Van Buren Ave');\n" + 
 				"INSERT INTO Stop VALUES ('16', 'Jackson St / Keyser Ave');\n" + 
 				"INSERT INTO Stop VALUES ('17', 'Simplex Dr / N South Rd');\n";
-
+		
+		String baseActualTripStopInfo = 
+				"INSERT INTO ActualTripStopInfo VALUES ('1001', '2017-11-01', '08:00AM', '1', '08:00AM', '08:02AM', '07:59AM', '19', '0');\n" + 
+				"INSERT INTO ActualTripStopInfo VALUES ('1002', '2017-11-01', '09:00AM', '3', '09:00AM', '09:05AM', '09:03AM', '7', '1');\n" + 
+				"INSERT INTO ActualTripStopInfo VALUES ('1003', '2017-11-01', '12:00PM', '5', '12:00PM', '12:06PM', '12:01PM', '14', '2');\n" + 
+				"INSERT INTO ActualTripStopInfo VALUES ('1004', '2017-11-01', '01:00PM', '6', '01:00PM', '01:04PM', '01:02PM', '4', '2');\n" + 
+				"INSERT INTO ActualTripStopInfo VALUES ('2001', '2017-11-02', '07:00AM', '8', '07:00AM', '07:05AM', '07:03AM', '12', '0');\n" + 
+				"INSERT INTO ActualTripStopInfo VALUES ('2002', '2017-11-02', '07:30AM', '8', '07:30AM', '07:34AM', '07:31AM', '11', '0');\n" + 
+				"INSERT INTO ActualTripStopInfo VALUES ('2003', '2017-11-02', '04:00PM', '9', '04:00PM', '04:05PM', '04:02PM', '7', '5');\n" + 
+				"INSERT INTO ActualTripStopInfo VALUES ('2004', '2017-11-02', '04:30PM', '10', '04:30PM', '04:33PM', '04:31PM', '10', '2');\n" + 
+				"INSERT INTO ActualTripStopInfo VALUES ('3001', '2017-11-03', '10:00AM', '11', '10:00AM', '10:05PM', '10:03PM', '6', '2');\n" + 
+				"INSERT INTO ActualTripStopInfo VALUES ('3002', '2017-11-03', '02:00PM', '13', '02:00PM', '02:04PM', '02:01PM', '4', '3');\n" + 
+				"INSERT INTO ActualTripStopInfo VALUES ('3003', '2017-11-03', '03:00PM', '12', '03:00PM', '03:05PM', '03:02PM', '5', '3');\n" + 
+				"INSERT INTO ActualTripStopInfo VALUES ('3004', '2017-11-04', '11:00AM', '14', '11:00AM', '11:05AM', '11:03AM', '6', '2');\n" + 
+				"INSERT INTO ActualTripStopInfo VALUES ('3005', '2017-11-04', '04:00PM', '11', '04:00PM', '04:04PM', '04:02PM', '8', '2');\n" + 
+				"INSERT INTO ActualTripStopInfo VALUES ('4001', '2017-11-04', '09:00AM', '15', '09:00AM', '09:03AM', '09:01AM', '6', '1');\n" + 
+				"INSERT INTO ActualTripStopInfo VALUES ('4002', '2017-11-04', '12:00PM', '8', '12:00PM', '12:03PM', '12:02PM', '4', '2');\n";
+		
+		String baseTripStopInfo = 
+				"INSERT INTO TripStopInfo VALUES ('1001', '1', '1', '2H');\n" + 
+				"INSERT INTO TripStopInfo VALUES ('1002', '3', '2', '2H');\n" + 
+				"INSERT INTO TripStopInfo VALUES ('1003', '5', '3', '2H');\n" + 
+				"INSERT INTO TripStopInfo VALUES ('1004', '6', '4', '2H');\n" + 
+				"INSERT INTO TripStopInfo VALUES ('2001', '8', '5', '3H');\n" + 
+				"INSERT INTO TripStopInfo VALUES ('2002', '8', '6', '3H');\n" + 
+				"INSERT INTO TripStopInfo VALUES ('2003', '9', '7', '3H');\n" + 
+				"INSERT INTO TripStopInfo VALUES ('2004', '10', '8', '3H');\n" + 
+				"INSERT INTO TripStopInfo VALUES ('3001', '11', '9', '3H');\n" + 
+				"INSERT INTO TripStopInfo VALUES ('3002', '13', '10', '2H');\n" + 
+				"INSERT INTO TripStopInfo VALUES ('3003', '12', '11', '3H');\n" + 
+				"INSERT INTO TripStopInfo VALUES ('3004', '14', '12', '3H');\n" + 
+				"INSERT INTO TripStopInfo VALUES ('3005', '11', '13', '3H');\n" + 
+				"INSERT INTO TripStopInfo VALUES ('4001', '15', '14', '2H');\n" + 
+				"INSERT INTO TripStopInfo VALUES ('4002', '8', '15', '1H');\n";
 		
 		try {
 			myStat.executeUpdate(baseBus);
@@ -412,6 +445,8 @@ public class Driver {
 			myStat.executeUpdate(baseTripOffering);
 			myStat.executeUpdate(baseTrip);
 			myStat.executeUpdate(baseStop);
+			myStat.executeUpdate(baseActualTripStopInfo);
+			myStat.executeUpdate(baseTripStopInfo);
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
