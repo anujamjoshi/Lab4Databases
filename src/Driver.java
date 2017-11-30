@@ -46,9 +46,7 @@ public class Driver {
 					System.out.println("Insert Date in YYYY-MM-DD format");
 					String Date = sc.next();
 					myRs= myStat.executeQuery(displaySchedule(StartLocationName ,  DestinationName,  Date ) );
-					while (myRs.next()) {
-						//TODO: PROCESS RESULT 
-					}
+					printTable(myRs);
 					break;
 				case "2" :
 
@@ -122,7 +120,14 @@ public class Driver {
 							TripNumber = Integer.parseInt(sc.next());
 							System.out.println("Insert BusId   ");
 							BusId = sc.next();
-							success = myStat.executeUpdate(changeBus(TripNumber, BusId));
+							String date, scheduledStartTime;
+							System.out.println("Insert date   ");
+							date = sc.next();
+							System.out.println("Insert scheduledStartTime   ");
+							scheduledStartTime = sc.next();
+							
+							
+							success = myStat.executeUpdate(changeBus(TripNumber, BusId,  date,  scheduledStartTime));
 							System.out.println(success);
 
 							break;
@@ -251,6 +256,23 @@ public class Driver {
 
 
 
+	private static void printTable(ResultSet myRs) {
+		try {
+			ResultSetMetaData rsMetaData = myRs.getMetaData();
+			int varColCount = rsMetaData.getColumnCount();
+			for (int col = 1; col <= varColCount; ++col) 
+				System.out.println(rsMetaData.getColumnName(col) + "\t");
+			while (myRs.next()) {
+				for (int col = 1; col <= varColCount; ++col) 
+					System.out.println(myRs.getString(col) + "\t");
+				System.out.println();
+			}
+			myRs.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
 	public static void createTables(Statement myStat) {
 		String Bus = 
 				"CREATE TABLE Bus (" + 
@@ -469,10 +491,10 @@ public class Driver {
 	/*
 	 * Question 2 
 	 */
-	private static String changeBus(Integer tripNumber, String busId) {
+	private static String changeBus(Integer tripNumber, String busId, String date, String scheduledStartTime) {
 		return "\n" + 
 				"UPDATE  TripOffering\n" + 
-				"SET DriverName = " + busId + " WHERE TripNumber = "+tripNumber +" ;  ";
+				"SET BusID = " + busId + " WHERE TripNumber = "+tripNumber +" AND Date = " + date + " AND ScheduledStartTime = " + scheduledStartTime + ";";
 
 
 	}
